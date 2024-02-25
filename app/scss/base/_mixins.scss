@@ -1,0 +1,120 @@
+
+// Box maker
+
+@mixin box($width, $height: $width) {
+    width: $width;
+    height: $height;
+  }
+    /* // You can pass width && height
+    @include box(200px, 300px);
+    or just pass width and the height
+       will default to the width value 
+    @include box(200px); */
+
+https://dev.to/alemesa/10-awesome-sass-scss-mixins-5ci2
+
+
+// compatibilité cross navigateurs
+
+@mixin css3-prefix($prop, $value) {
+    -webkit-#{$prop}: #{$value};
+    -moz-#{$prop}: #{$value};
+    -ms-#{$prop}: #{$value};
+    -o-#{$prop}: #{$value};
+    #{$prop}: #{$value};
+ }
+ Example of Usage
+ 
+ This mixin takes two arguments that you need to define when you call it with the @include rule. The first is the name of the CSS property, and the second is its value.
+ 
+ /* SCSS */
+ div {
+    @include css3-prefix(transform, scale3d(2.5, 2, 1.5));
+ }
+
+
+ https://www.developerdrive.com/10-best-sass-mixins-for-web-developers/
+
+
+ // Color theme
+ @mixin theme($name, $color) {
+    // Define colors in your theme
+    $primary: $color;
+    $secondary: lighten(adjust-hue($color, 20), 10%);
+    // Add your classes with css colors added
+    .#{$name} {
+      .element {
+        color: $primary;
+      }
+      .other-element {
+        background: $secondary;
+      }
+    }
+  }
+
+  // centering element (not the flexbox way)
+
+  Depending on your layout, there are many different ways to center align an element in your styles. The below method uses absolute positioning and will allow you to define vertical, horizontal, or both centered elements. The parent element will need to have position: relative. This allows you to easily define the centered position of an element in a short 2 lines of code.
+
+@mixin center($position) {
+  position: absolute;
+  
+  @if $position == 'vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  @else if $position == 'horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translate(-50%);
+  }
+  @else if $position == 'both' {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+.foo {
+  @include center(both);
+}
+.foo-parent {
+  position: relative;
+}
+
+// clearfix 
+
+%clearfix {
+    *zoom: 1;
+    &:before, &:after {
+      content: " ";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+  }
+  .container-with-floated-children {
+    @extend %clearfix;
+  }
+
+  // Font size harmonise
+
+  @function calculateRem($size) {
+    $remSize: $size / 16px;
+    @return $remSize * 1rem;
+  }
+  
+  @mixin font-size($size) {
+    font-size: $size;
+    font-size: calculateRem($size);
+  }
+  p {
+    @include font-size(14px)
+  }
+
+  
